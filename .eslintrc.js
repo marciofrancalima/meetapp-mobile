@@ -12,6 +12,7 @@ module.exports = {
     SharedArrayBuffer: 'readonly',
     __DEV__: true,
   },
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -19,9 +20,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: [
-    "react", "import", "prettier"
-  ],
+  plugins: ["react", "import", "prettier"],
   rules: {
     'prettier/prettier': 'error',
     'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
