@@ -3,14 +3,14 @@ import { Text } from 'react-native';
 
 import { Container } from './styles';
 
-export default function Dashboard() {
+export default function Profile() {
   return (
     <Container>
-      <Text>Meus Meetups</Text>
+      <Text>Meu perfil</Text>
     </Container>
   );
 }
 
-Dashboard.navigationOptions = {
-  tabBarLabel: 'Meetups',
+Profile.navigationOptions = {
+  tabBarLabel: 'Meu perfil',
 };
