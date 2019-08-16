@@ -16,62 +16,64 @@ import {
   SubmitButton,
 } from './styles';
 
-export default function Meetup({ data, handleSubmit, loading }) {
+export default function MySubscription({ data, onCancel, loading }) {
   const dateParsed = useMemo(() => {
-    return format(parseISO(data.date), "dd 'de' MMMM 'às' HH:mm", {
+    return format(parseISO(data.Meetup.date), "dd 'de' MMMM 'às' HH:mm", {
       locale: ptBR,
     });
-  }, [data.date]);
+  }, [data.Meetup.date]);
 
   return (
     <Container>
       <Banner
         source={{
-          uri: data.banner
-            ? data.banner.url
+          uri: data.Meetup.banner
+            ? data.Meetup.banner.url
             : `https://api.adorable.io/avatars/50/${data.User.name}.png`,
         }}
       />
 
       <Info>
-        <Title>{data.title}</Title>
+        <Title>{data.Meetup.title}</Title>
         <Content>
           <Icon name="event" size={16} color="#999" />
           <Time>{dateParsed}</Time>
         </Content>
         <Content>
           <Icon name="location-on" size={16} color="#999" />
-          <Location>{data.location}</Location>
+          <Location>{data.Meetup.location}</Location>
         </Content>
         <Content>
           <Icon name="person" size={16} color="#999" />
-          <Organizer>Organizador: {data.User.name}</Organizer>
+          <Organizer>Organizador: {data.Meetup.User.name}</Organizer>
         </Content>
       </Info>
 
-      <SubmitButton loading={loading} onPress={handleSubmit}>
-        Realizar inscrição
+      <SubmitButton loading={loading} onPress={onCancel}>
+        Cancelar inscrição
       </SubmitButton>
     </Container>
   );
 }
 
-Meetup.propTypes = {
+MySubscription.propTypes = {
   data: PropTypes.shape({
-    date: PropTypes.string.isRequired,
-    banner: PropTypes.shape({
-      url: PropTypes.string.isRequired,
-    }).isRequired,
-    title: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
-    User: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }).isRequired,
+    Meetup: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+      location: PropTypes.string.isRequired,
+      User: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }),
+      banner: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+      }).isRequired,
+    }),
   }).isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   loading: PropTypes.bool,
 };
 
-Meetup.defaultProps = {
+MySubscription.defaultProps = {
   loading: false,
 };
