@@ -45,4 +45,7 @@ export default function Dashboard() {
 
 Dashboard.navigationOptions = {
   tabBarLabel: 'Meetups',
+  tabBarIcon: ({ tintColor }) => (
+    <Icon name="format-list-bulleted" size={20} color={tintColor} />
+  ),
 };

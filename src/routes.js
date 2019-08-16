@@ -30,6 +30,15 @@ export default (isSigned = false) =>
               inactiveTintColor: 'rgba(255,255,255,0.6)',
               style: {
                 backgroundColor: '#2B1A2F',
+                height: 60,
+              },
+              tabStyle: {
+                paddingTop: 15,
+                paddingBottom: 10,
+              },
+              labelStyle: {
+                fontSize: 13,
+                paddingTop: 5,
               },
             },
           }
