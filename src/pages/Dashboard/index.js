@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import api from '~/services/api';
 
 import Meetup from '~/components/Meetup';
+import Header from '~/components/Header';
 
 import { Container, Title, List, DateView } from './styles';
 
@@ -40,6 +41,7 @@ export default function Dashboard() {
 
   return (
     <Container>
+      <Header />
       <DateView>
         <TouchableOpacity onPress={() => {}}>
           <Icon name="chevron-left" size={30} color="#fff" />

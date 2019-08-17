@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import api from '~/services/api';
 import MySubscription from '~/components/MySubscription';
 import EmptyList from '~/components/EmptyList';
+import Header from '~/components/Header';
 
 import { Container, List } from './styles';
 
@@ -37,6 +38,7 @@ export default function Subscription() {
 
   return (
     <Container>
+      <Header />
       {subscriptions.length === 0 ? (
         <EmptyList>Você não está inscrito em nenhum meetup</EmptyList>
       ) : (

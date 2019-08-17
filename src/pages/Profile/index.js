@@ -15,6 +15,8 @@ import {
   LogoutButton,
 } from './styles';
 
+import Header from '~/components/Header';
+
 export default function Profile() {
   const dispatch = useDispatch();
   const loading = useSelector(state => state.user.loading);
@@ -56,6 +58,7 @@ export default function Profile() {
 
   return (
     <Container>
+      <Header />
       <Form>
         <FormInput
           icon="people-outline"
@@ -86,7 +89,7 @@ export default function Profile() {
         <FormInput
           icon="lock-outline"
           secureTextEntry
-          placeholder="Sua senha secreta"
+          placeholder="Senha atual"
           ref={oldPasswordRef}
           returnKeyType="next"
           onSubmitEditing={() => passwordRef.current.focus()}
@@ -97,7 +100,7 @@ export default function Profile() {
         <FormInput
           icon="lock-outline"
           secureTextEntry
-          placeholder="Sua senha secreta"
+          placeholder="Nova senha"
           ref={passwordRef}
           returnKeyType="next"
           onSubmitEditing={() => confirmPasswordRef.current.focus()}
@@ -108,7 +111,7 @@ export default function Profile() {
         <FormInput
           icon="lock-outline"
           secureTextEntry
-          placeholder="Sua senha secreta"
+          placeholder="Confirme sua nova senha"
           ref={confirmPasswordRef}
           returnKeyType="send"
           onSubmitEditing={handleSubmit}
