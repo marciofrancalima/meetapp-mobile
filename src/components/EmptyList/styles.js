@@ -11,4 +11,5 @@ export const Text = styled.Text`
   color: #fff;
   font-size: 16px;
   font-weight: bold;
+  margin-top: 20px;
 `;

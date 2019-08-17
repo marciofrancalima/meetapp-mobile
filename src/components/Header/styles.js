@@ -4,7 +4,7 @@ import logo from '~/assets/logo.png';
 
 export const Container = styled.SafeAreaView`
   height: 64px;
-  padding: 20px 0 0;
+  padding: 20px 0 10px;
 
   justify-content: center;
   align-items: center;

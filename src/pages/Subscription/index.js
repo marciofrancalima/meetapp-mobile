@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Text } from 'react-native';
+import { Alert } from 'react-native';
+import { withNavigationFocus } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import api from '~/services/api';
@@ -9,25 +10,28 @@ import Header from '~/components/Header';
 
 import { Container, List } from './styles';
 
-export default function Subscription() {
+function Subscription({ isFocused }) {
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  async function loadSubscriptions() {
+    const response = await api.get('subscriptions');
+
+    setSubscriptions(response.data);
+  }
+
   useEffect(() => {
-    async function loadSubscriptions() {
-      const response = await api.get('subscriptions');
-
-      setSubscriptions(response.data);
+    if (isFocused) {
+      loadSubscriptions();
     }
-
-    loadSubscriptions();
-  }, []);
+  }, [isFocused]);
 
   async function onCancel(id) {
     try {
       setLoading(true);
       await api.delete(`subscriptions/${id}`);
       Alert.alert('Cancelado', 'Sua inscrição foi cancelada com sucesso');
+      loadSubscriptions();
     } catch (error) {
       const message = String(error.response.data.message);
       Alert.alert('Ops!', message);
@@ -38,21 +42,23 @@ export default function Subscription() {
 
   return (
     <Container>
-      <Header />
       {subscriptions.length === 0 ? (
         <EmptyList>Você não está inscrito em nenhum meetup</EmptyList>
       ) : (
-        <List
-          data={subscriptions}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
-            <MySubscription
-              data={item}
-              onCancel={() => onCancel(item.id)}
-              loading={loading}
-            />
-          )}
-        />
+        <>
+          <Header />
+          <List
+            data={subscriptions}
+            keyExtractor={item => String(item.id)}
+            renderItem={({ item }) => (
+              <MySubscription
+                data={item}
+                onCancel={() => onCancel(item.id)}
+                loading={loading}
+              />
+            )}
+          />
+        </>
       )}
     </Container>
   );
@@ -64,3 +70,5 @@ Subscription.navigationOptions = {
     <Icon name="local-offer" size={20} color={tintColor} />
   ),
 };
+
+export default withNavigationFocus(Subscription);

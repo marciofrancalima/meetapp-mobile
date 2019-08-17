@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Alert } from 'react-native';
+import { withNavigationFocus } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import api from '~/services/api';
@@ -9,19 +10,21 @@ import Header from '~/components/Header';
 
 import { Container, Title, List, DateView } from './styles';
 
-export default function Dashboard() {
+function Dashboard({ isFocused }) {
   const [meetups, setMeetups] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  async function loadMeetups() {
+    const response = await api.get('meetups');
+
+    setMeetups(response.data);
+  }
+
   useEffect(() => {
-    async function loadMeetups() {
-      const response = await api.get('meetups');
-
-      setMeetups(response.data);
+    if (isFocused) {
+      loadMeetups();
     }
-
-    loadMeetups();
-  }, []);
+  }, [isFocused]);
 
   async function handleSubmit(id) {
     try {
@@ -75,3 +78,5 @@ Dashboard.navigationOptions = {
     <Icon name="format-list-bulleted" size={20} color={tintColor} />
   ),
 };
+
+export default withNavigationFocus(Dashboard);
