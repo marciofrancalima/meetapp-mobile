@@ -11,6 +11,7 @@ import api from '~/services/api';
 import Meetup from '~/components/Meetup';
 import Header from '~/components/Header';
 import EmptyList from '~/components/EmptyList';
+import Background from '~/components/Background';
 
 import { Container, Title, List, DateView } from './styles';
 
@@ -78,41 +79,44 @@ function Dashboard({ isFocused }) {
   }
 
   return (
-    <Container>
-      <Header />
-      <DateView>
-        <TouchableOpacity onPress={handlePrevDay}>
-          <Icon name="chevron-left" size={30} color="#fff" />
-        </TouchableOpacity>
+    <Background>
+      <Container>
+        <Header />
+        <DateView>
+          <TouchableOpacity onPress={handlePrevDay}>
+            <Icon name="chevron-left" size={30} color="#fff" />
+          </TouchableOpacity>
 
-        <Title>{dateFormatted}</Title>
+          <Title>{dateFormatted}</Title>
 
-        <TouchableOpacity onPress={handleNextDay}>
-          <Icon name="chevron-right" size={30} color="#fff" />
-        </TouchableOpacity>
-      </DateView>
+          <TouchableOpacity onPress={handleNextDay}>
+            <Icon name="chevron-right" size={30} color="#fff" />
+          </TouchableOpacity>
+        </DateView>
 
-      {meetups.length === 0 ? (
-        <EmptyList>Nenhum meetup encontrado</EmptyList>
-      ) : (
-        <List
-          data={meetups}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
-            <Meetup
-              data={item}
-              loading={loading}
-              handleSubmit={() => handleSubmit(item.id)}
-            />
-          )}
-        />
-      )}
-    </Container>
+        {meetups.length === 0 ? (
+          <EmptyList>Nenhum meetup encontrado</EmptyList>
+        ) : (
+          <List
+            data={meetups}
+            keyExtractor={item => String(item.id)}
+            renderItem={({ item }) => (
+              <Meetup
+                data={item}
+                loading={loading}
+                handleSubmit={() => handleSubmit(item.id)}
+              />
+            )}
+          />
+        )}
+      </Container>
+    </Background>
   );
 }
 
 Dashboard.navigationOptions = {
   tabBarLabel: 'Meetups',
+  // eslint-disable-next-line react/prop-types
   tabBarIcon: ({ tintColor }) => (
     <Icon name="format-list-bulleted" size={20} color={tintColor} />
   ),

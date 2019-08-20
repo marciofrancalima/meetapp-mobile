@@ -4,12 +4,12 @@ import styled from 'styled-components/native';
 import Input from '~/components/Input';
 import Button from '~/components/Button';
 
+import colors from '~/styles/colors';
+
 export const Container = styled.KeyboardAvoidingView.attrs({
   enabled: Platform.OS === 'ios',
   behavior: 'padding',
 })`
-  background: #402845;
-
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -28,7 +28,7 @@ export const FormInput = styled(Input)`
 
 export const Separator = styled.View`
   height: 1px;
-  background: rgba(255, 255, 255, 0.2);
+  background: ${colors.separator};
   margin: 20px 0 30px;
 `;
 
@@ -38,5 +38,5 @@ export const SubmitButton = styled(Button)`
 
 export const LogoutButton = styled(Button)`
   margin-top: 10px;
-  background: #f64c75;
+  background: ${colors.secondaryButton};
 `;

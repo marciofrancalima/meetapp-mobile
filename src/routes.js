@@ -11,6 +11,8 @@ import Dashboard from './pages/Dashboard';
 import Subscription from './pages/Subscription';
 import Profile from './pages/Profile';
 
+import colors from '~/styles/colors';
+
 export default (isSigned = false) =>
   createAppContainer(
     createSwitchNavigator(
@@ -29,9 +31,9 @@ export default (isSigned = false) =>
             tabBarOptions: {
               keyboardHidesTabBar: true,
               activeTintColor: '#fff',
-              inactiveTintColor: 'rgba(255,255,255,0.6)',
+              inactiveTintColor: `${colors.inactive}`,
               style: {
-                backgroundColor: '#241528',
+                backgroundColor: `${colors.secondaryBackground}`,
                 height: 60,
               },
               tabStyle: {

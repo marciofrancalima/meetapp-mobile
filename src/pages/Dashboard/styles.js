@@ -1,7 +1,8 @@
 import styled from 'styled-components/native';
 
+import colors from '~/styles/colors';
+
 export const Container = styled.SafeAreaView`
-  background: #402845;
   flex: 1;
 `;
 
@@ -15,7 +16,7 @@ export const DateView = styled.View`
 export const Title = styled.Text`
   font-size: 20px;
   font-weight: bold;
-  color: #fff;
+  color: ${colors.textDefault};
   margin: 0 15px;
 `;
 

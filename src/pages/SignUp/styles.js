@@ -4,12 +4,12 @@ import styled from 'styled-components/native';
 import Input from '~/components/Input';
 import Button from '~/components/Button';
 
+import colors from '~/styles/colors';
+
 export const Container = styled.KeyboardAvoidingView.attrs({
   enabled: Platform.OS === 'ios',
   behavior: 'padding',
 })`
-  background: #402845;
-
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -34,7 +34,7 @@ export const SignLink = styled.TouchableOpacity`
 `;
 
 export const SignLinkText = styled.Text`
-  color: #fff;
+  color: ${colors.textDefault};
   font-weight: bold;
   font-size: 16px;
 `;

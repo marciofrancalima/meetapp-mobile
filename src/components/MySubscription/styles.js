@@ -2,11 +2,13 @@ import styled from 'styled-components/native';
 
 import Button from '../Button';
 
+import colors from '~/styles/colors';
+
 export const Container = styled.View`
   margin-bottom: 15px;
 
   border-radius: 4px;
-  background: #fff;
+  background: ${colors.tertiaryBackground};
 `;
 
 export const Banner = styled.Image.attrs({
@@ -26,7 +28,7 @@ export const Info = styled.View`
 export const Title = styled.Text`
   font-size: 18px;
   font-weight: bold;
-  color: #333;
+  color: ${colors.secondaryText};
   margin-bottom: 10px;
 `;
 
@@ -38,19 +40,19 @@ export const Content = styled.View`
 
 export const Time = styled.Text`
   font-size: 13px;
-  color: #999;
+  color: ${colors.tertiaryText};
   margin: 0 0 0 5px;
 `;
 
 export const Location = styled.Text`
   font-size: 13px;
-  color: #999;
+  color: ${colors.tertiaryText};
   margin: 0 0 0 5px;
 `;
 
 export const Organizer = styled.Text`
   font-size: 13px;
-  color: #999;
+  color: ${colors.tertiaryText};
   margin: 0 0 0 5px;
 `;
 

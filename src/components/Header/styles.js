@@ -2,6 +2,8 @@ import styled from 'styled-components/native';
 
 import logo from '~/assets/logo.png';
 
+import colors from '~/styles/colors';
+
 export const Container = styled.SafeAreaView`
   height: 64px;
   padding: 20px 0 10px;
@@ -12,7 +14,7 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const Content = styled.View`
-  background: #241528;
+  background: ${colors.secondaryBackground};
   height: 50px;
   width: 50px;
   border-radius: 25px;
