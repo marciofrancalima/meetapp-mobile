@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Alert } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -42,23 +43,22 @@ function Subscription({ isFocused }) {
 
   return (
     <Container>
+      <Header />
+
       {subscriptions.length === 0 ? (
         <EmptyList>Você não está inscrito em nenhum meetup</EmptyList>
       ) : (
-        <>
-          <Header />
-          <List
-            data={subscriptions}
-            keyExtractor={item => String(item.id)}
-            renderItem={({ item }) => (
-              <MySubscription
-                data={item}
-                onCancel={() => onCancel(item.id)}
-                loading={loading}
-              />
-            )}
-          />
-        </>
+        <List
+          data={subscriptions}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item }) => (
+            <MySubscription
+              data={item}
+              onCancel={() => onCancel(item.id)}
+              loading={loading}
+            />
+          )}
+        />
       )}
     </Container>
   );
@@ -69,6 +69,10 @@ Subscription.navigationOptions = {
   tabBarIcon: ({ tintColor }) => (
     <Icon name="local-offer" size={20} color={tintColor} />
   ),
+};
+
+Subscription.propTypes = {
+  isFocused: PropTypes.bool.isRequired,
 };
 
 export default withNavigationFocus(Subscription);

@@ -56,4 +56,19 @@ export const Organizer = styled.Text`
 
 export const SubmitButton = styled(Button)`
   margin: 15px;
+  opacity: ${props => (props.past ? 0.3 : 1)};
+`;
+
+export const DoneWrapper = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0;
+`;
+
+export const Done = styled.Text`
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+  margin-right: 5px;
 `;

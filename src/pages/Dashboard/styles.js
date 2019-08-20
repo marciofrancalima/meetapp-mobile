@@ -6,7 +6,7 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const DateView = styled.View`
-  margin-top: 30px;
+  margin: 20px 0 10px;
   flex-direction: row;
   align-items: center;
   justify-content: center;

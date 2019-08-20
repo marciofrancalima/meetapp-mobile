@@ -14,6 +14,8 @@ import {
   Location,
   Organizer,
   SubmitButton,
+  DoneWrapper,
+  Done,
 } from './styles';
 
 export default function Meetup({ data, handleSubmit, loading }) {
@@ -49,9 +51,16 @@ export default function Meetup({ data, handleSubmit, loading }) {
         </Content>
       </Info>
 
-      <SubmitButton loading={loading} onPress={handleSubmit}>
-        Realizar inscrição
-      </SubmitButton>
+      {data.past ? (
+        <DoneWrapper>
+          <Done>Evento realizado</Done>
+          <Icon name="check-circle" size={16} color="#2E8A36" />
+        </DoneWrapper>
+      ) : (
+        <SubmitButton loading={loading} onPress={handleSubmit} past={data.past}>
+          Realizar inscrição
+        </SubmitButton>
+      )}
     </Container>
   );
 }
@@ -67,6 +76,7 @@ Meetup.propTypes = {
     User: PropTypes.shape({
       name: PropTypes.string.isRequired,
     }).isRequired,
+    past: PropTypes.bool.isRequired,
   }).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   loading: PropTypes.bool,

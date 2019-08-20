@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { format, isBefore, parseISO, subDays, addDays } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 import { TouchableOpacity, Alert } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -7,24 +10,56 @@ import api from '~/services/api';
 
 import Meetup from '~/components/Meetup';
 import Header from '~/components/Header';
+import EmptyList from '~/components/EmptyList';
 
 import { Container, Title, List, DateView } from './styles';
+
+// Limit Per Page
+const per_page = 5;
 
 function Dashboard({ isFocused }) {
   const [meetups, setMeetups] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [page, setPage] = useState(1);
+
+  const dateFormatted = useMemo(
+    () => format(date, "dd 'de' MMMM", { locale: ptBR }),
+    [date]
+  );
+
+  function handlePrevDay() {
+    setDate(subDays(date, 1));
+  }
+
+  function handleNextDay() {
+    setDate(addDays(date, 1));
+  }
 
   async function loadMeetups() {
-    const response = await api.get('meetups');
+    const response = await api.get('meetups', {
+      params: {
+        per_page,
+        page,
+        date,
+      },
+    });
 
-    setMeetups(response.data);
+    const data = response.data.map(meetup => {
+      return {
+        ...meetup,
+        past: isBefore(parseISO(meetup.date), Date.now()),
+      };
+    });
+
+    setMeetups(data);
   }
 
   useEffect(() => {
     if (isFocused) {
       loadMeetups();
     }
-  }, [isFocused]);
+  }, [isFocused, date]);
 
   async function handleSubmit(id) {
     try {
@@ -46,28 +81,32 @@ function Dashboard({ isFocused }) {
     <Container>
       <Header />
       <DateView>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={handlePrevDay}>
           <Icon name="chevron-left" size={30} color="#fff" />
         </TouchableOpacity>
 
-        <Title>31 de Maio</Title>
+        <Title>{dateFormatted}</Title>
 
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={handleNextDay}>
           <Icon name="chevron-right" size={30} color="#fff" />
         </TouchableOpacity>
       </DateView>
 
-      <List
-        data={meetups}
-        keyExtractor={item => String(item.id)}
-        renderItem={({ item }) => (
-          <Meetup
-            data={item}
-            loading={loading}
-            handleSubmit={() => handleSubmit(item.id)}
-          />
-        )}
-      />
+      {meetups.length === 0 ? (
+        <EmptyList>Nenhum meetup encontrado</EmptyList>
+      ) : (
+        <List
+          data={meetups}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item }) => (
+            <Meetup
+              data={item}
+              loading={loading}
+              handleSubmit={() => handleSubmit(item.id)}
+            />
+          )}
+        />
+      )}
     </Container>
   );
 }
@@ -77,6 +116,10 @@ Dashboard.navigationOptions = {
   tabBarIcon: ({ tintColor }) => (
     <Icon name="format-list-bulleted" size={20} color={tintColor} />
   ),
+};
+
+Dashboard.propTypes = {
+  isFocused: PropTypes.bool.isRequired,
 };
 
 export default withNavigationFocus(Dashboard);
