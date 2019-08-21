@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { parseISO, format } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import { formatDateWithHour } from '~/util/dateUtils';
 
 import {
   Container,
@@ -19,11 +19,7 @@ import {
 } from './styles';
 
 export default function Meetup({ data, handleSubmit, loading }) {
-  const dateParsed = useMemo(() => {
-    return format(parseISO(data.date), "dd 'de' MMMM 'às' HH:mm", {
-      locale: ptBR,
-    });
-  }, [data.date]);
+  const dateParsed = useMemo(() => formatDateWithHour(data.date), [data.date]);
 
   return (
     <Container>
@@ -51,7 +47,7 @@ export default function Meetup({ data, handleSubmit, loading }) {
         </Content>
       </Info>
 
-      {data.past ? (
+      {data.done ? (
         <DoneWrapper>
           <Done>Evento realizado</Done>
           <Icon name="check-circle" size={16} color="#2E8A36" />
@@ -76,7 +72,7 @@ Meetup.propTypes = {
     User: PropTypes.shape({
       name: PropTypes.string.isRequired,
     }).isRequired,
-    past: PropTypes.bool.isRequired,
+    done: PropTypes.bool.isRequired,
   }).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   loading: PropTypes.bool,

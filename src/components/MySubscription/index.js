@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { parseISO, format } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import { formatDateWithHour } from '~/util/dateUtils';
 
 import {
   Container,
@@ -17,11 +17,9 @@ import {
 } from './styles';
 
 export default function MySubscription({ data, onCancel, loading }) {
-  const dateParsed = useMemo(() => {
-    return format(parseISO(data.Meetup.date), "dd 'de' MMMM 'às' HH:mm", {
-      locale: ptBR,
-    });
-  }, [data.Meetup.date]);
+  const dateParsed = useMemo(() => formatDateWithHour(data.Meetup.date), [
+    data.Meetup.date,
+  ]);
 
   return (
     <Container>

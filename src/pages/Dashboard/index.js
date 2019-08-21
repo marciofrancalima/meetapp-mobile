@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { format, isBefore, parseISO, subDays, addDays } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
 import { TouchableOpacity, Alert } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -12,6 +10,8 @@ import Meetup from '~/components/Meetup';
 import Header from '~/components/Header';
 import EmptyList from '~/components/EmptyList';
 import Background from '~/components/Background';
+
+import { formatDate, isDone, prevDay, nextDay } from '~/util/dateUtils';
 
 import { Container, Title, List, DateView } from './styles';
 
@@ -24,17 +24,14 @@ function Dashboard({ isFocused }) {
   const [date, setDate] = useState(new Date());
   const [page, setPage] = useState(1);
 
-  const dateFormatted = useMemo(
-    () => format(date, "dd 'de' MMMM", { locale: ptBR }),
-    [date]
-  );
+  const dateFormatted = useMemo(() => formatDate(date), [date]);
 
   function handlePrevDay() {
-    setDate(subDays(date, 1));
+    setDate(prevDay(date));
   }
 
   function handleNextDay() {
-    setDate(addDays(date, 1));
+    setDate(nextDay(date));
   }
 
   async function loadMeetups() {
@@ -46,10 +43,10 @@ function Dashboard({ isFocused }) {
       },
     });
 
-    const data = response.data.map(meetup => {
+    const data = response.data.rows.map(meetup => {
       return {
         ...meetup,
-        past: isBefore(parseISO(meetup.date), Date.now()),
+        done: isDone(meetup.date),
       };
     });
 
