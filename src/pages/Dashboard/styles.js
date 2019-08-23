@@ -24,3 +24,10 @@ export const List = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: { padding: 30 },
 })``;
+
+export const Loading = styled.ActivityIndicator.attrs({
+  size: 'small',
+  color: '#fff',
+})`
+  margin: 30px 0;
+`;

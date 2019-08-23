@@ -13,7 +13,7 @@ import Background from '~/components/Background';
 
 import { formatDate, isDone, prevDay, nextDay } from '~/util/dateUtils';
 
-import { Container, Title, List, DateView } from './styles';
+import { Container, Title, List, DateView, Loading } from './styles';
 
 // Limit Per Page
 const per_page = 5;
@@ -23,22 +23,23 @@ function Dashboard({ isFocused }) {
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(new Date());
   const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [refresh, setRefresh] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const dateFormatted = useMemo(() => formatDate(date), [date]);
 
-  function handlePrevDay() {
-    setDate(prevDay(date));
-  }
+  async function loadMeetups(pageNumber = page, shouldRefresh = false) {
+    if (total && pageNumber > total) {
+      return;
+    }
 
-  function handleNextDay() {
-    setDate(nextDay(date));
-  }
+    setRefresh(true);
 
-  async function loadMeetups() {
     const response = await api.get('meetups', {
       params: {
         per_page,
-        page,
+        page: pageNumber,
         date,
       },
     });
@@ -50,7 +51,12 @@ function Dashboard({ isFocused }) {
       };
     });
 
-    setMeetups(data);
+    const totalItems = await response.data.count;
+
+    setTotal(Math.ceil(totalItems / per_page));
+    setMeetups(shouldRefresh ? data : [...meetups, ...data]);
+    setPage(pageNumber + 1);
+    setRefresh(false);
   }
 
   useEffect(() => {
@@ -75,6 +81,24 @@ function Dashboard({ isFocused }) {
     }
   }
 
+  function handlePrevDay() {
+    setPage(1);
+    setDate(prevDay(date));
+    setMeetups([]);
+  }
+
+  function handleNextDay() {
+    setPage(1);
+    setDate(nextDay(date));
+    setMeetups([]);
+  }
+
+  async function refreshList() {
+    setRefreshing(true);
+    await loadMeetups(1, true);
+    setRefreshing(false);
+  }
+
   return (
     <Background>
       <Container>
@@ -97,6 +121,11 @@ function Dashboard({ isFocused }) {
           <List
             data={meetups}
             keyExtractor={item => String(item.id)}
+            onEndReached={() => loadMeetups()}
+            onEndReachedThreshold={0.1}
+            onRefresh={refreshList}
+            refreshing={refreshing}
+            ListFooterComponent={refresh && <Loading />}
             renderItem={({ item }) => (
               <Meetup
                 data={item}
