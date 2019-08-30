@@ -53,7 +53,7 @@ export default function Meetup({ data, handleSubmit, loading }) {
           <Icon name="check-circle" size={16} color="#2E8A36" />
         </DoneWrapper>
       ) : (
-        <SubmitButton loading={loading} onPress={handleSubmit} past={data.past}>
+        <SubmitButton loading={loading} onPress={handleSubmit}>
           Realizar inscrição
         </SubmitButton>
       )}

@@ -27,7 +27,7 @@ export default function MySubscription({ data, onCancel, loading }) {
         source={{
           uri: data.Meetup.banner
             ? data.Meetup.banner.url
-            : `https://api.adorable.io/avatars/50/${data.User.name}.png`,
+            : `https://api.adorable.io/avatars/50/${data.Meetup.User.name}.png`,
         }}
       />
 

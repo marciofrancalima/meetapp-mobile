@@ -58,7 +58,6 @@ export const Organizer = styled.Text`
 
 export const SubmitButton = styled(Button)`
   margin: 15px;
-  opacity: ${props => (props.past ? 0.3 : 1)};
 `;
 
 export const DoneWrapper = styled.View`
